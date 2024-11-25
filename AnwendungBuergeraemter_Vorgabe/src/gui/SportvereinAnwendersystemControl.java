@@ -27,13 +27,14 @@ public class SportvereinAnwendersystemControl {
 	 public void leseAusDatei(String typ){
 	    	try {
 	      		if("csv".equals(typ)){
-	      			anwModel.leseAusDatei();
+	      			anwModel.leseAusDatei("csv");
 	      	  		anwView.zeigeInformationsfensterAn(
 	      	  	   			"Die Sportverein wurden gelesen!");
 	      		}
 	       		else{
-		   			anwView.zeigeInformationsfensterAn(
-		   				"Noch nicht implementiert!");
+	       			anwModel.leseAusDatei("txt");
+	      	  		anwView.zeigeInformationsfensterAn(
+	      	  	   			"Die Sportverein wurden gelesen!");
 		   		}
 			}
 			catch(IOException exc){
