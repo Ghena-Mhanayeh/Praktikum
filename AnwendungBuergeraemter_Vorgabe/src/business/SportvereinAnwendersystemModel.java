@@ -5,14 +5,30 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Vector;
 
 import fabrik.ConcreteCreator;
 import fabrik.Creator;
 import fabrik.Product;
+import ownUtil.Observable;
+import ownUtil.Observer;
 
-public class SportvereinAnwendersystemModel {
+public class SportvereinAnwendersystemModel implements Observable{
 	
-	   private Sportverein sportverein;
+	Vector<Observer> observers = new Vector<Observer>();
+	
+	private static SportvereinAnwendersystemModel anwendersystemModel;
+	
+	public static SportvereinAnwendersystemModel getInstance() {
+		if(anwendersystemModel == null) {
+			
+			anwendersystemModel = new SportvereinAnwendersystemModel();
+			
+		}
+		return anwendersystemModel;
+	}
+	
+	private Sportverein sportverein;
 
 	public Sportverein getSportverein() {
 		return sportverein;
@@ -20,9 +36,10 @@ public class SportvereinAnwendersystemModel {
 
 	public void setSportverein(Sportverein sportverein) {
 		this.sportverein = sportverein;
+		notifyObservers();
 	}
 
-	public SportvereinAnwendersystemModel() {
+	private SportvereinAnwendersystemModel() {
 		super();
 	}
 	
@@ -35,7 +52,7 @@ public class SportvereinAnwendersystemModel {
 	      				Float.parseFloat(zeile[1]), 
 	      				Float.parseFloat(zeile[2]), 
 	      				zeile[3], zeile[4].split("_"));
-		
+	      			notifyObservers();
 	  }
 	 
 	 
@@ -49,5 +66,24 @@ public class SportvereinAnwendersystemModel {
 				
 				
 	 }
+
+	@Override
+	public void addObserver(Observer obs) {
+		this.observers.addElement(obs);
+	}
+
+	@Override
+	public void removeObserver(Observer obs) {
+		this.observers.removeElement(obs);
+		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for(int i = 0; i< observers.size(); i++) {
+			this.observers.elementAt(i).update();
+		}
+		
+	}
 
 }

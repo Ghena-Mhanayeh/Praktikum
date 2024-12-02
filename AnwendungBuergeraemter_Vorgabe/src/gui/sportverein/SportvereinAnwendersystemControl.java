@@ -1,4 +1,4 @@
-package gui;
+package gui.sportverein;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,17 +11,18 @@ import business.SportvereinAnwendersystemModel;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import ownUtil.MeldungsfensterAnzeiger;
+import ownUtil.Observer;
 
-public class SportvereinAnwendersystemControl {
+public class SportvereinAnwendersystemControl implements Observer{
 	
 	SportvereinAnwendersystemModel anwModel;
 	SportvereinAnwendersystemView anwView;
 	
 	
 	public SportvereinAnwendersystemControl(Stage primaryStage) {
-		this.anwModel = new SportvereinAnwendersystemModel();
+		this.anwModel = SportvereinAnwendersystemModel.getInstance(); 	
 		this.anwView = new SportvereinAnwendersystemView(this, primaryStage, anwModel);
-		
+		anwModel.addObserver(this);
 	}
 	
 	 public void leseAusDatei(String typ){
@@ -73,5 +74,11 @@ public class SportvereinAnwendersystemControl {
 	       	new MeldungsfensterAnzeiger(AlertType.ERROR,
 	        	"Fehler", meldung).zeigeMeldungsfensterAn();
 	    }
+
+		@Override
+		public void update() {
+			this.anwView.zeigeSportvereinAn();
+			
+		}
 
 }

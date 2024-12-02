@@ -1,4 +1,4 @@
-package gui;
+package gui.sportverein;
    
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -179,7 +179,7 @@ public class SportvereinAnwendersystemView {
      	}
     }
    
-    private void zeigeSportvereinAn(){
+    void zeigeSportvereinAn(){
     	if(anwModel.getSportverein() != null){
     		txtAnzeige.setText(
     			anwModel.getSportverein().gibSportvereinZurueck(' '));
